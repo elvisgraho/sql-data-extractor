@@ -6,14 +6,6 @@ The SQL Dump Data Extractor is a command-line utility designed to parse SQL dump
 
 ### install
 
-Using go get (deprecated for installing binaries from Go 1.17):
-
-```bash
-go get github.com/elvisgraho/sql_data_extractor
-```
-
-Using go install (preferred method for Go 1.16 and later):
-
 ```bash
 go install github.com/elvisgraho/sql_data_extractor@latest
 ```
