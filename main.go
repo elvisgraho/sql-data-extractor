@@ -109,6 +109,11 @@ func main() {
 	fmt.Printf("Data successfully written to %s_%s.json\n", strings.TrimSuffix(filename, ".sql"), tableName)
 }
 
+type CustomRecord struct {
+	columnName  string
+	columnValue string
+}
+
 func findTableContent(dump, tableName string) (string, error) {
 	// Adjusted regex to match CREATE TABLE block more accurately
 	tableRegexPattern := fmt.Sprintf(
@@ -168,19 +173,19 @@ func parseIncludedColumns(includeColumnsStr string) map[string]bool {
 }
 
 // This function processes a single match and returns a slice of cleaned values.
-func processSingleMatch(match string, columns []string, includedColumns map[string]bool) []string {
+func processSingleMatch(match string, columns []string, includedColumns map[string]bool) []CustomRecord {
 	values := regexp.MustCompile(`'(?:[^'\\]|\\.)*'|[^,]+`).FindAllString(match, -1)
-	var record []string
+	var customRecords []CustomRecord
 	for i, value := range values {
 		if i < len(columns) {
 			columnName := columns[i]
 			if includedColumns[columnName] || len(includedColumns) == 0 {
 				cleanValue := strings.Trim(value, "'")
-				record = append(record, cleanValue)
+				customRecords = append(customRecords, CustomRecord{columnName: columnName, columnValue: cleanValue})
 			}
 		}
 	}
-	return record
+	return customRecords
 }
 
 func processInsertStatements(tableContent, tableName string, columns []string, includedColumns map[string]bool, hashcat bool) interface{} {
@@ -199,18 +204,23 @@ func processInsertStatements(tableContent, tableName string, columns []string, i
 	if hashcat {
 		var hashcatOutput []string
 		for _, match := range allValues {
-			record := processSingleMatch(match, columns, includedColumns)
-			hashcatOutput = append(hashcatOutput, strings.Join(record, ":"))
+			customRecord := processSingleMatch(match, columns, includedColumns)
+
+			var tmpOut []string
+			for _, customRecord := range customRecord {
+				tmpOut = append(tmpOut, customRecord.columnValue)
+			}
+			hashcatOutput = append(hashcatOutput, strings.Join(tmpOut, ":"))
 		}
 		return strings.Join(hashcatOutput, "\n")
 	} else {
 		var jsonRecords []map[string]interface{}
 		for _, match := range allValues {
-			record := processSingleMatch(match, columns, includedColumns)
+			customRecord := processSingleMatch(match, columns, includedColumns)
 			recordMap := make(map[string]interface{})
-			for i, value := range record {
+			for i, value := range customRecord {
 				if i < len(columns) {
-					recordMap[columns[i]] = value
+					recordMap[customRecord[i].columnName] = value.columnValue
 				}
 			}
 			jsonRecords = append(jsonRecords, recordMap)
