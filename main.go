@@ -101,11 +101,9 @@ func main() {
 
 	records := processInsertStatements(tableContent, tableName, columns, includedColumns, hashcat)
 
-	if tableName == "" {
-		if err := writeToFile(filename, tableName, records, hashcat); err != nil {
-			fmt.Printf("Error writing JSON file: %s\n", err)
-			os.Exit(1)
-		}
+	if err := writeToFile(filename, tableName, records, hashcat); err != nil {
+		fmt.Printf("Error writing JSON file: %s\n", err)
+		os.Exit(1)
 	}
 
 	fmt.Printf("Data successfully written to %s_%s.json\n", strings.TrimSuffix(filename, ".sql"), tableName)
