@@ -1,25 +1,3 @@
-/*
-SQL Dump Data Extractor
-
-This application processes SQL dump files to extract data from specified tables and outputs the data in either JSON or .txt formats.
-
-Usage:
-    ./sql-data-extractor -file <path_to_sql_dump> -table <table_name> [options]
-
-Options:
-  -file       The path to the SQL dump file to be processed. (required)
-  -table      The name of the table from which to extract data. (required)
-  -column     Comma-separated list of column names to include in the output. If omitted, all columns will be included.
-  -hashcat    When set, formats the output for Hashcat - value1:value2. Otherwise, outputs in JSON format.
-
-Example:
-    Extract 'user_email' and 'user_pass' from the 'users' table in 'dump.sql' for Hashcat:
-    ./sql-data-extractor -file dump.sql -table users -column user_email,user_pass -hashcat
-
-    Extract all columns from the 'products' table in 'dump.sql' in JSON format:
-    ./sql-data-extractor -file dump.sql -table products
-*/
-
 package main
 
 import (
