@@ -7,7 +7,7 @@ The SQL Dump Data Extractor is a command-line utility designed to parse SQL dump
 ### install
 
 ```bash
-go install github.com/elvisgraho/sql_data_extractor@latest
+go install github.com/elvisgraho/sql-data-extractor@latest
 ```
 
 ### Flags
@@ -25,11 +25,11 @@ go install github.com/elvisgraho/sql_data_extractor@latest
 To extract **user_email** and **user_pass** from the **users** table in **dump.sql** for Hashcat, use:
 
 ```bash
-go run ./sql_data_extractor -file dump.sql -table users -column user_email,user_pass -hashcat
+sql-data-extractor -file dump.sql -table users -column user_email,user_pass -hashcat
 ```
 
 To extract all columns from the 'products' table in 'dump.sql' in JSON format, use:
 
 ```bash
-go run ./sql_data_extractor -file dump.sql -table products
+sql-data-extractor -file dump.sql -table products
 ```

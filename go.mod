@@ -1,3 +1,3 @@
-module github.com/elvisgraho/sql_data_extractor
+module github.com/elvisgraho/sql-data-extractor
 
 go 1.22.0

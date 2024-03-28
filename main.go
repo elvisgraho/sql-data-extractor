@@ -4,7 +4,7 @@ SQL Dump Data Extractor
 This application processes SQL dump files to extract data from specified tables and outputs the data in either JSON or .txt formats.
 
 Usage:
-    ./sql_data_extractor -file <path_to_sql_dump> -table <table_name> [options]
+    ./sql-data-extractor -file <path_to_sql_dump> -table <table_name> [options]
 
 Options:
   -file       The path to the SQL dump file to be processed. (required)
@@ -14,10 +14,10 @@ Options:
 
 Example:
     Extract 'user_email' and 'user_pass' from the 'users' table in 'dump.sql' for Hashcat:
-    ./sql_data_extractor -file dump.sql -table users -column user_email,user_pass -hashcat
+    ./sql-data-extractor -file dump.sql -table users -column user_email,user_pass -hashcat
 
     Extract all columns from the 'products' table in 'dump.sql' in JSON format:
-    ./sql_data_extractor -file dump.sql -table products
+    ./sql-data-extractor -file dump.sql -table products
 */
 
 package main
@@ -38,7 +38,7 @@ func parseFlags() (filename string, tableName string, includeColumns string, has
   This application processes SQL dump files to extract data from specified tables and outputs the data in JSON format or a format suitable for Hashcat.
 
 Usage:
- ./sql_data_extractor -file <path_to_sql_dump> -table <table_name> [options]
+  sql-data-extractor -file <path_to_sql_dump> -table <table_name> [options]
 
 Options:
   -file       The path to the SQL dump file to be processed. (required)
